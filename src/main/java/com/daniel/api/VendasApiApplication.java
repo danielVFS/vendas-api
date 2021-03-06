@@ -7,12 +7,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.daniel.api.domain.Adress;
 import com.daniel.api.domain.Category;
 import com.daniel.api.domain.City;
+import com.daniel.api.domain.Customer;
 import com.daniel.api.domain.Product;
 import com.daniel.api.domain.State;
+import com.daniel.api.enums.TypeCustomer;
+import com.daniel.api.repositories.AdressRepository;
 import com.daniel.api.repositories.CategoryRepository;
 import com.daniel.api.repositories.CityRepository;
+import com.daniel.api.repositories.CustomerRepository;
 import com.daniel.api.repositories.ProductRepository;
 import com.daniel.api.repositories.StateRepository;
 
@@ -27,6 +32,10 @@ public class VendasApiApplication implements CommandLineRunner {
 	private CityRepository cityRepository;
 	@Autowired
 	private StateRepository stateRepository;
+	@Autowired
+	private CustomerRepository customerRepository;
+	@Autowired
+	private AdressRepository adressRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(VendasApiApplication.class, args);
@@ -66,6 +75,20 @@ public class VendasApiApplication implements CommandLineRunner {
 		stateRepository.saveAll(Arrays.asList(st1, st2));
 		cityRepository.saveAll(Arrays.asList(c1, c2, c3));
 
+		/*******************************************************/
+		
+		Customer cust1 = new Customer(null, "Maria Silva", "maria@gmail.com", "36378912377", TypeCustomer.NATURALPERSON);
+		
+		cust1.getPhones().addAll(Arrays.asList("93592151", "98526312"));
+		
+		Adress ad1 = new Adress(null, "Rua Flores", "300", "Apto 101", "Jardim", "75120000", cust1, c1);
+		Adress ad2 = new Adress(null, "Avenida Matos", "105", "Sala 800", "Centro", "75190000", cust1, c2);
+
+		cust1.getAdresses().addAll(Arrays.asList(ad1, ad2));
+		
+		customerRepository.saveAll(Arrays.asList(cust1));
+		adressRepository.saveAll(Arrays.asList(ad1, ad2));
+		
 		/*******************************************************/
 	}
 
