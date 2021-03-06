@@ -1,13 +1,13 @@
 package com.daniel.api.enums;
 
-public enum TypeClient {
+public enum TypeCustomer {
 
 	LEGALPERSON(1, "Pessoa Jurídica"), NATURALPERSON(2, "Pessoa Física");
 
 	private int cod;
 	private String description;
 
-	private TypeClient(int cod, String description) {
+	private TypeCustomer(int cod, String description) {
 		this.cod = cod;
 		this.description = description;
 	}
@@ -20,12 +20,12 @@ public enum TypeClient {
 		return description;
 	}
 
-	public static TypeClient toEnum(Integer cod) {
+	public static TypeCustomer toEnum(Integer cod) {
 		if(cod == null) {
 			return null;
 		}
 		
-		for(TypeClient x : TypeClient.values()) {
+		for(TypeCustomer x : TypeCustomer.values()) {
 			if(cod.equals(x.getCod())) {
 				return x;
 			}
