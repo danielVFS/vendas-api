@@ -1,7 +1,10 @@
 package com.daniel.api.domain;
 
+import javax.persistence.Entity;
+
 import com.daniel.api.enums.StatePayment;
 
+@Entity
 public class PaymentWithCreditCard extends Payment{
 	
 	private static final long serialVersionUID = 1L;

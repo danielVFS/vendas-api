@@ -8,24 +8,32 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
-public class Order implements Serializable{
+@Table(name = "ORDER_TABLE")
+public class Order implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer Id;
+	private Integer id;
 
 	private Date instant;
 
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "order")
 	private Payment payment;
 
+	@ManyToOne
+	@JoinColumn(name = "costumer_id")
 	private Customer customer;
 
+	@ManyToOne
+	@JoinColumn(name = "delivery_adress_id")
 	private Adress deliveryAdress;
 
 	public Order() {
@@ -34,7 +42,7 @@ public class Order implements Serializable{
 
 	public Order(Integer id, Date instant, Payment payment, Customer customer, Adress deliveryAdress) {
 		super();
-		Id = id;
+		this.id = id;
 		this.instant = instant;
 		this.payment = payment;
 		this.customer = customer;
@@ -42,11 +50,11 @@ public class Order implements Serializable{
 	}
 
 	public Integer getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(Integer id) {
-		Id = id;
+		this.id = id;
 	}
 
 	public Date getInstant() {
@@ -85,7 +93,7 @@ public class Order implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((Id == null) ? 0 : Id.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -98,10 +106,10 @@ public class Order implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Order other = (Order) obj;
-		if (Id == null) {
-			if (other.Id != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!Id.equals(other.Id))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}

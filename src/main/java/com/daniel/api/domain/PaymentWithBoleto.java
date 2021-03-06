@@ -2,8 +2,11 @@ package com.daniel.api.domain;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+
 import com.daniel.api.enums.StatePayment;
 
+@Entity
 public class PaymentWithBoleto extends Payment {
 
 	private static final long serialVersionUID = 1L;
