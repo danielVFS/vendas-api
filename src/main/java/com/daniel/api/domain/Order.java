@@ -40,11 +40,10 @@ public class Order implements Serializable {
 		super();
 	}
 
-	public Order(Integer id, Date instant, Payment payment, Customer customer, Adress deliveryAdress) {
+	public Order(Integer id, Date instant, Customer customer, Adress deliveryAdress) {
 		super();
 		this.id = id;
 		this.instant = instant;
-		this.payment = payment;
 		this.customer = customer;
 		this.deliveryAdress = deliveryAdress;
 	}

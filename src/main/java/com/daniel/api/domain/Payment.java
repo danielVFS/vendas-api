@@ -14,14 +14,14 @@ import com.daniel.api.enums.StatePayment;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Payment implements Serializable{
+public abstract class Payment implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	private Integer id;
 
-	private StatePayment state;
+	private Integer state;
 
 	@OneToOne
 	@JoinColumn(name = "order_id")
@@ -35,7 +35,7 @@ public class Payment implements Serializable{
 	public Payment(Integer id, StatePayment state, Order order) {
 		super();
 		this.id = id;
-		this.state = state;
+		this.state = state.getCod();
 		this.order = order;
 	}
 
@@ -48,11 +48,11 @@ public class Payment implements Serializable{
 	}
 
 	public StatePayment getState() {
-		return state;
+		return StatePayment.toEnum(state);
 	}
 
 	public void setState(StatePayment state) {
-		this.state = state;
+		this.state = state.getCod();
 	}
 
 	public Order getOrder() {
