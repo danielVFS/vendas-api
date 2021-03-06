@@ -2,16 +2,29 @@ package com.daniel.api.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+
 import com.daniel.api.enums.StatePayment;
 
+@Entity
 public class Payment implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
+	@Id
 	private Integer id;
 
 	private StatePayment state;
 
+	@OneToOne
+	@JoinColumn(name = "order_id")
+	@MapsId
 	private Order order;
 
 	public Payment() {
