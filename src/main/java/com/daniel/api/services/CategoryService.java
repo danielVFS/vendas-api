@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.daniel.api.domain.Category;
 import com.daniel.api.repositories.CategoryRepository;
+import com.daniel.api.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class CategoryService {
@@ -17,6 +18,6 @@ public class CategoryService {
 	public Category find(Integer id) {
 		Optional<Category> category = categoryRepository.findById(id);
 		
-		return category.orElse(null);
+		return category.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado, ID:" + id + ", Tipo: " + Category.class.getName()));
 	}
 }
