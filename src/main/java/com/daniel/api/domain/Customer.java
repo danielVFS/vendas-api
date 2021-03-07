@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.daniel.api.enums.TypeCustomer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Customer implements Serializable {
@@ -37,6 +38,7 @@ public class Customer implements Serializable {
 	@CollectionTable(name = "PHONES")
 	private Set<String> phones = new HashSet<>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "customer")
 	private List<Order> orders = new ArrayList<>();
 
