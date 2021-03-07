@@ -12,6 +12,7 @@ import com.daniel.api.domain.Adress;
 import com.daniel.api.domain.Category;
 import com.daniel.api.domain.City;
 import com.daniel.api.domain.Customer;
+import com.daniel.api.domain.ItemOrder;
 import com.daniel.api.domain.Order;
 import com.daniel.api.domain.Payment;
 import com.daniel.api.domain.PaymentWithBoleto;
@@ -24,6 +25,7 @@ import com.daniel.api.repositories.AdressRepository;
 import com.daniel.api.repositories.CategoryRepository;
 import com.daniel.api.repositories.CityRepository;
 import com.daniel.api.repositories.CustomerRepository;
+import com.daniel.api.repositories.ItemOrderRepository;
 import com.daniel.api.repositories.OrderRepository;
 import com.daniel.api.repositories.PaymentRepository;
 import com.daniel.api.repositories.ProductRepository;
@@ -48,6 +50,8 @@ public class VendasApiApplication implements CommandLineRunner {
 	private OrderRepository orderRepository;
 	@Autowired
 	private PaymentRepository paymentRepository;
+	@Autowired
+	private ItemOrderRepository itemOrderRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(VendasApiApplication.class, args);
@@ -88,36 +92,52 @@ public class VendasApiApplication implements CommandLineRunner {
 		cityRepository.saveAll(Arrays.asList(c1, c2, c3));
 
 		/*******************************************************/
-		
-		Customer cust1 = new Customer(null, "Maria Silva", "maria@gmail.com", "36378912377", TypeCustomer.NATURALPERSON);
-		
+
+		Customer cust1 = new Customer(null, "Maria Silva", "maria@gmail.com", "36378912377",
+				TypeCustomer.NATURALPERSON);
+
 		cust1.getPhones().addAll(Arrays.asList("93592151", "98526312"));
-		
+
 		Adress ad1 = new Adress(null, "Rua Flores", "300", "Apto 101", "Jardim", "75120000", cust1, c1);
 		Adress ad2 = new Adress(null, "Avenida Matos", "105", "Sala 800", "Centro", "75190000", cust1, c2);
 
 		cust1.getAdresses().addAll(Arrays.asList(ad1, ad2));
-		
+
 		customerRepository.saveAll(Arrays.asList(cust1));
 		adressRepository.saveAll(Arrays.asList(ad1, ad2));
-		
+
 		/*******************************************************/
-		
+
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		
+
 		Order ord1 = new Order(null, sdf.parse("30/03/2021 10:32"), cust1, ad1);
 		Order ord2 = new Order(null, sdf.parse("10/04/2021 19:35"), cust1, ad2);
-		
+
 		Payment pay1 = new PaymentWithCreditCard(null, StatePayment.SETTLED, ord1, 6);
 		ord1.setPayment(pay1);
-		
+
 		Payment pay2 = new PaymentWithBoleto(null, StatePayment.PENDIND, ord2, sdf.parse("15/04/2021 00:00"), null);
 		ord2.setPayment(pay2);
-		
+
 		cust1.getOrders().addAll(Arrays.asList(ord1, ord2));
-		
+
 		orderRepository.saveAll(Arrays.asList(ord1, ord2));
 		paymentRepository.saveAll(Arrays.asList(pay1, pay2));
+
+		/*******************************************************/
+
+		ItemOrder io1 = new ItemOrder(ord1, p1, 0.00, 1, 2000.00);
+		ItemOrder io2 = new ItemOrder(ord1, p3, 0.00, 2, 80.00);
+		ItemOrder io3 = new ItemOrder(ord2, p2, 100.00, 1, 800.00);
+
+		ord1.getItens().addAll(Arrays.asList(io1, io2));
+		ord2.getItens().addAll(Arrays.asList(io3));
+		
+		p1.getItens().addAll(Arrays.asList(io1));
+		p2.getItens().addAll(Arrays.asList(io2));
+		p3.getItens().addAll(Arrays.asList(io3));
+
+		itemOrderRepository.saveAll(Arrays.asList(io1, io2, io3));
 		
 		/*******************************************************/
 	}
