@@ -3,10 +3,12 @@ package com.daniel.api.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.daniel.api.domain.Category;
 import com.daniel.api.repositories.CategoryRepository;
+import com.daniel.api.services.exceptions.DataIntegrityException;
 import com.daniel.api.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -36,6 +38,10 @@ public class CategoryService {
 	public void delete(Integer id) {
 		find(id);
 		
-		categoryRepository.deleteById(id);
+		try {
+			categoryRepository.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("It is not possible to delete a Category that has products");
+		}
 	}
 }
