@@ -2,7 +2,9 @@ package com.daniel.api.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,6 +35,9 @@ public class Product implements Serializable {
 	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private List<Category> categories = new ArrayList<>();
 
+	@OneToMany(mappedBy = "id.product")
+	private Set<ItemOrder> itens = new HashSet<>();
+	
 	public Product() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -42,6 +48,16 @@ public class Product implements Serializable {
 		this.id = id;
 		this.name = name;
 		this.price = price;
+	}
+	
+	public List<Order> getOrders() {
+		List<Order> list = new ArrayList<>();
+		
+		for(ItemOrder x : itens) {
+			list.add(x.getOrder());
+		}
+		
+		return list;
 	}
 
 	public Integer getId() {
@@ -74,6 +90,14 @@ public class Product implements Serializable {
 
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
+	}
+	
+	public Set<ItemOrder> getItens() {
+		return itens;
+	}
+
+	public void setItens(Set<ItemOrder> itens) {
+		this.itens = itens;
 	}
 
 	@Override

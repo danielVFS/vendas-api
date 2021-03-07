@@ -2,6 +2,8 @@ package com.daniel.api.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -36,6 +39,9 @@ public class Order implements Serializable {
 	@JoinColumn(name = "delivery_adress_id")
 	private Adress deliveryAdress;
 
+	@OneToMany(mappedBy = "id.order")	
+	private Set<ItemOrder> itens = new HashSet<>();
+	
 	public Order() {
 		super();
 	}
@@ -86,6 +92,15 @@ public class Order implements Serializable {
 
 	public void setDeliveryAdress(Adress deliveryAdress) {
 		this.deliveryAdress = deliveryAdress;
+	}
+	
+	@OneToMany(mappedBy = "id.order")
+	public Set<ItemOrder> getItens() {
+		return itens;
+	}
+
+	public void setItens(Set<ItemOrder> itens) {
+		this.itens = itens;
 	}
 
 	@Override
