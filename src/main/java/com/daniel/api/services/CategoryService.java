@@ -1,5 +1,6 @@
 package com.daniel.api.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,12 @@ public class CategoryService {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
+	
+	public List<Category> findAll() {
+		List<Category> categories = categoryRepository.findAll();
+		
+		return categories;
+	}
 
 	public Category find(Integer id) {
 		Optional<Category> category = categoryRepository.findById(id);
