@@ -11,13 +11,15 @@ import com.daniel.api.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class CustomerService {
-	
+
 	@Autowired
 	private CustomerRepository customerRepository;
-	
+
 	public Customer find(Integer id) {
 		Optional<Customer> customer = customerRepository.findById(id);
-		
-		return customer.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado, ID:" + id + ", Tipo: " + Customer.class.getName()));
+
+		return customer.orElseThrow(() -> new ObjectNotFoundException(
+				"Objeto não encontrado, ID:" + id + ", Tipo: " + Customer.class.getName()));
 	}
+
 }
