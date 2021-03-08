@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.daniel.api.domain.Category;
+import com.daniel.api.domain.Customer;
 import com.daniel.api.dto.CategoryDTO;
 import com.daniel.api.repositories.CategoryRepository;
 import com.daniel.api.services.exceptions.DataIntegrityException;
@@ -46,9 +47,11 @@ public class CategoryService {
 	}
 
 	public Category update(Category category) {
-		find(category.getId());
+		Category newCategory = find(category.getId());
 
-		return categoryRepository.save(category);
+		updateData(newCategory, category);
+
+		return categoryRepository.save(newCategory);
 	}
 
 	public void delete(Integer id) {
@@ -63,5 +66,9 @@ public class CategoryService {
 	
 	public Category fromDTO(CategoryDTO categoryDto) {
 		return new Category(categoryDto.getId(), categoryDto.getName());
+	}
+	
+	private void updateData(Category newCategory, Category category) {
+		newCategory.setName(category.getName());
 	}
 }

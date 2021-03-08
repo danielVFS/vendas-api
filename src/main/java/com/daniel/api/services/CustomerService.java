@@ -54,7 +54,7 @@ public class CustomerService {
 		try {
 			customerRepository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("It is not possible to delete a Customer that has products");
+			throw new DataIntegrityException("It is not possible to delete a Customer that has related entities");
 		}
 	}
 
