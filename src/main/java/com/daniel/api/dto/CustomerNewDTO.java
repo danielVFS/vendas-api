@@ -2,21 +2,44 @@ package com.daniel.api.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.daniel.api.services.validation.CustomerInsert;
+
+@CustomerInsert
 public class CustomerNewDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@NotEmpty(message = "Name is required")
+	@Length(min = 5, max = 80, message = "The length must be between 5 and 8 characters ")
 	private String name;
+	
+	@NotEmpty(message = "Email is required")
+	@Email(message = "Invalid E-mail")
 	private String email;
+	
 	private String cpfOrCnpj;
 	private Integer type;
+	
+	@NotEmpty(message = "Adress is required")
 	private String adress;
+	
+	@NotEmpty(message = "Number is required")
 	private String number;
+	
 	private String complement;
 	private String district;
+	
+	@NotEmpty(message = "zip code is required")
 	private String zipCode;
 
+	@NotEmpty(message = "Phoene1 is required")
 	private String phone1;
+	
 	private String phone2;
 	private String phone3;
 
