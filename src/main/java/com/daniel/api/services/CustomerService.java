@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.daniel.api.domain.Customer;
 import com.daniel.api.dto.CustomerDTO;
@@ -39,6 +40,8 @@ public class CustomerService {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return customerRepository.findAll(pageRequest);
 	}
+	
+	
 
 	public Customer update(Customer customer) {
 		Customer newCustomer = find(customer.getId());

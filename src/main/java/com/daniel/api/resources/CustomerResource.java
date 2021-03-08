@@ -55,6 +55,8 @@ public class CustomerResource {
 
 		return ResponseEntity.ok().body(categoriesDTO);
 	}
+	
+	
 
 	@PutMapping(value = "{id}")
 	public ResponseEntity<Customer> update(@Valid @RequestBody CustomerDTO categoryDto, @PathVariable Integer id) {
