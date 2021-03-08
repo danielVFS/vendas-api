@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.daniel.api.domain.Category;
+import com.daniel.api.dto.CategoryDTO;
 import com.daniel.api.repositories.CategoryRepository;
 import com.daniel.api.services.exceptions.DataIntegrityException;
 import com.daniel.api.services.exceptions.ObjectNotFoundException;
@@ -58,5 +59,9 @@ public class CategoryService {
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("It is not possible to delete a Category that has products");
 		}
+	}
+	
+	public Category fromDTO(CategoryDTO categoryDto) {
+		return new Category(categoryDto.getId(), categoryDto.getName());
 	}
 }
