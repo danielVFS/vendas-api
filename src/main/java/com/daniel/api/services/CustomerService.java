@@ -40,10 +40,12 @@ public class CustomerService {
 		return customerRepository.findAll(pageRequest);
 	}
 
-	public Customer update(Customer category) {
-		find(category.getId());
+	public Customer update(Customer customer) {
+		Customer newCustomer = find(customer.getId());
 
-		return customerRepository.save(category);
+		updateData(newCustomer, customer);
+
+		return customerRepository.save(newCustomer);
 	}
 
 	public void delete(Integer id) {
@@ -57,7 +59,12 @@ public class CustomerService {
 	}
 
 	public Customer fromDTO(CustomerDTO customerDto) {
-		return new Customer(customerDto.getId(), customerDto.getName(), customerDto.getEmail(), null, null	);
+		return new Customer(customerDto.getId(), customerDto.getName(), customerDto.getEmail(), null, null);
+	}
+
+	private void updateData(Customer newCustomer, Customer customer) {
+		newCustomer.setName(customer.getName());
+		newCustomer.setEmail(customer.getEmail());
 	}
 
 }
