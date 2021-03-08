@@ -8,7 +8,9 @@ import javax.validation.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
 import com.daniel.api.domain.Customer;
+import com.daniel.api.services.validation.CustomerUpdate;
 
+@CustomerUpdate
 public class CustomerDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
