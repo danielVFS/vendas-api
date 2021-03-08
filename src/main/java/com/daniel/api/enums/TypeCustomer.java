@@ -2,7 +2,7 @@ package com.daniel.api.enums;
 
 public enum TypeCustomer {
 
-	LEGALPERSON(1, "Pessoa Jurídica"), NATURALPERSON(2, "Pessoa Física");
+	NATURALPERSON(1, "Pessoa Física"), LEGALPERSON(2, "Pessoa Jurídica");
 
 	private int cod;
 	private String description;
