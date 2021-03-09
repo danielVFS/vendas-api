@@ -12,13 +12,14 @@ import javax.persistence.OneToOne;
 
 import com.daniel.api.enums.StatePayment;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Payment implements Serializable{
-
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
+public abstract class Payment implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	private Integer id;
 
@@ -37,7 +38,7 @@ public abstract class Payment implements Serializable{
 	public Payment(Integer id, StatePayment state, Order order) {
 		super();
 		this.id = id;
-		this.state = (state == null) ? null: state.getCod();
+		this.state = (state == null) ? null : state.getCod();
 		this.order = order;
 	}
 

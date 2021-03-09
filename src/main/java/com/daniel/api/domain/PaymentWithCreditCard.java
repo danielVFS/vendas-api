@@ -3,8 +3,10 @@ package com.daniel.api.domain;
 import javax.persistence.Entity;
 
 import com.daniel.api.enums.StatePayment;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @Entity
+@JsonTypeName("paymentWithCreditCard")
 public class PaymentWithCreditCard extends Payment{
 	
 	private static final long serialVersionUID = 1L;
