@@ -31,6 +31,8 @@ public class OrderService {
 	private ProductService productService;
 	@Autowired
 	private BoletoService boletoService;
+	@Autowired
+	private EmailService emailService; // o spring procurar o bin que utiliza EmailService
 
 	public Order find(Integer id) {
 		Optional<Order> order = orderRepository.findById(id);
@@ -63,7 +65,7 @@ public class OrderService {
 		}
 
 		itemOrderRepository.saveAll(order.getItens());
-		System.out.println(order);
+		emailService.sendOrderEmailConfirmation(order);
 		return order;
 	}
 }
