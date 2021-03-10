@@ -109,7 +109,7 @@ public class DBService {
 
 		/*******************************************************/
 
-		Customer cust1 = new Customer(null, "Maria Silva", "maria@gmail.com", "36378912377",
+		Customer cust1 = new Customer(null, "Maria Silva", "danielv759153@gmail.com", "36378912377",
 				TypeCustomer.NATURALPERSON);
 
 		cust1.getPhones().addAll(Arrays.asList("93592151", "98526312"));
