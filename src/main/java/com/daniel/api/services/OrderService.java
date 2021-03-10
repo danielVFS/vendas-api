@@ -26,6 +26,8 @@ public class OrderService {
 	@Autowired
 	private ItemOrderRepository itemOrderRepository;
 	@Autowired
+	private CustomerService customerService;
+	@Autowired
 	private ProductService productService;
 	@Autowired
 	private BoletoService boletoService;
@@ -41,6 +43,7 @@ public class OrderService {
 	public Order insert(Order order) {
 		order.setId(null);
 		order.setInstant(new Date());
+		order.setCustomer(customerService.find(order.getCustomer().getId()));
 		order.getPayment().setState(StatePayment.PENDIND);
 		order.getPayment().setOrder(order);
 
@@ -54,11 +57,13 @@ public class OrderService {
 
 		for (ItemOrder io : order.getItens()) {
 			io.setDiscount(0.0);
-			io.setPrice(productService.find(io.getProduct().getId()).getPrice());
+			io.setProduct(productService.find(io.getProduct().getId()));
+			io.setPrice(io.getProduct().getPrice());
 			io.setOrder(order);
 		}
 
 		itemOrderRepository.saveAll(order.getItens());
+		System.out.println(order);
 		return order;
 	}
 }
