@@ -19,6 +19,7 @@ import com.daniel.api.domain.PaymentWithBoleto;
 import com.daniel.api.domain.PaymentWithCreditCard;
 import com.daniel.api.domain.Product;
 import com.daniel.api.domain.State;
+import com.daniel.api.enums.Profile;
 import com.daniel.api.enums.StatePayment;
 import com.daniel.api.enums.TypeCustomer;
 import com.daniel.api.repositories.AdressRepository;
@@ -114,16 +115,22 @@ public class DBService {
 
 		Customer cust1 = new Customer(null, "Maria Silva", "danielv759153@gmail.com", "36378912377",
 				TypeCustomer.NATURALPERSON, bcrypt.encode("123"));
-
 		cust1.getPhones().addAll(Arrays.asList("93592151", "98526312"));
+		
+		Customer cust2 = new Customer(null, "Ana costa", "frostddtank@gmail.com", "39332296006",
+				TypeCustomer.NATURALPERSON, bcrypt.encode("123"));
+		cust2.addProfile(Profile.ADMIN);
+		cust2.getPhones().addAll(Arrays.asList("93592151", "98526312"));
 
 		Adress ad1 = new Adress(null, "Rua Flores", "300", "Apto 101", "Jardim", "75120000", cust1, c1);
 		Adress ad2 = new Adress(null, "Avenida Matos", "105", "Sala 800", "Centro", "75190000", cust1, c2);
+		Adress ad3 = new Adress(null, "Rua Marques", "20", null, "Centro", "20145900", cust2, c2);
 
 		cust1.getAdresses().addAll(Arrays.asList(ad1, ad2));
+		cust2.getAdresses().addAll(Arrays.asList(ad3));
 
-		customerRepository.saveAll(Arrays.asList(cust1));
-		adressRepository.saveAll(Arrays.asList(ad1, ad2));
+		customerRepository.saveAll(Arrays.asList(cust1, cust2));
+		adressRepository.saveAll(Arrays.asList(ad1, ad2, ad3));
 
 		/*******************************************************/
 
