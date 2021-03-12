@@ -17,9 +17,12 @@ import com.daniel.api.domain.City;
 import com.daniel.api.domain.Customer;
 import com.daniel.api.dto.CustomerDTO;
 import com.daniel.api.dto.CustomerNewDTO;
+import com.daniel.api.enums.Profile;
 import com.daniel.api.enums.TypeCustomer;
 import com.daniel.api.repositories.AdressRepository;
 import com.daniel.api.repositories.CustomerRepository;
+import com.daniel.api.secutiry.UserSS;
+import com.daniel.api.services.exceptions.AuthorizationException;
 import com.daniel.api.services.exceptions.DataIntegrityException;
 import com.daniel.api.services.exceptions.ObjectNotFoundException;
 
@@ -34,6 +37,15 @@ public class CustomerService {
 	private BCryptPasswordEncoder bcrypt;
 
 	public Customer find(Integer id) {
+		UserSS user = UserService.authenticated();
+		
+
+		System.out.println(user);
+		
+		if(user == null || !user.hasHole(Profile.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acess denied");
+		}
+		
 		Optional<Customer> customer = customerRepository.findById(id);
 
 		return customer.orElseThrow(() -> new ObjectNotFoundException(

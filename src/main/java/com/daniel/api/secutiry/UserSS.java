@@ -70,4 +70,10 @@ public class UserSS implements UserDetails {
 		return true;
 	}
 
+	public boolean hasHole(Profile profile) {
+		return getAuthorities().contains(new SimpleGrantedAuthority(profile.getDescription()));
+	}
+
+
+
 }
