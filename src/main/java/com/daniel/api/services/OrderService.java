@@ -4,9 +4,13 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.daniel.api.domain.Customer;
 import com.daniel.api.domain.ItemOrder;
 import com.daniel.api.domain.Order;
 import com.daniel.api.domain.PaymentWithBoleto;
@@ -14,6 +18,8 @@ import com.daniel.api.enums.StatePayment;
 import com.daniel.api.repositories.ItemOrderRepository;
 import com.daniel.api.repositories.OrderRepository;
 import com.daniel.api.repositories.PaymentRepository;
+import com.daniel.api.secutiry.UserSS;
+import com.daniel.api.services.exceptions.AuthorizationException;
 import com.daniel.api.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -67,5 +73,18 @@ public class OrderService {
 		itemOrderRepository.saveAll(order.getItens());
 		emailService.sendOrderEmailConfirmation(order);
 		return order;
+	}
+	
+	public Page<Order> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		UserSS user = UserService.authenticated();
+		
+		if(user == null) {
+			throw new AuthorizationException("Access denied");
+		}
+		
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		
+		Customer customer = customerService.find(user.getId());	
+		return orderRepository.findByCustomer(customer, pageRequest);
 	}
 }
